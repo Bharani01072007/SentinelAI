@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
@@ -23,20 +23,6 @@ app = FastAPI(
     description="Enterprise-grade Clean Architecture insider threat detection platform",
     version="1.0.0"
 )
-
-from fastapi.responses import JSONResponse
-import traceback
-
-@app.exception_handler(Exception)
-async def debug_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={
-            "error": str(exc),
-            "traceback": traceback.format_exc()
-        }
-    )
-
 
 # Enable CORS for frontend client interactions
 app.add_middleware(
@@ -91,7 +77,7 @@ def health_check():
     return {
         "status": "healthy",
         "timestamp": datetime.utcnow(),
-        "version": "1.0.2-debug"
+        "version": "1.0.3-verify"
     }
 
 # Serve frontend static files in production
