@@ -1,6 +1,9 @@
 import uuid
+# pyrefly: ignore [missing-import]
 from sqlalchemy import Column, String, Text, DateTime, ForeignKey, func
+# pyrefly: ignore [missing-import]
 from sqlalchemy.orm import relationship
+# pyrefly: ignore [missing-import]
 from sqlalchemy.dialects.postgresql import UUID
 from app.core.database import Base
 
