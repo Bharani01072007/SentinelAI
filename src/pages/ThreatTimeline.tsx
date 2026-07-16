@@ -5,7 +5,7 @@ import { Clock, MapPin } from 'lucide-react'
 
 function ThreatGraph() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animRef = useRef<number>()
+  const animRef = useRef<number | null>(null)
   const timeRef = useRef(0)
 
   const nodes = [

@@ -80,6 +80,36 @@ def health_check():
         "version": "1.0.0"
     }
 
+# Serve frontend static files in production
+import os
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BACKEND_DIR)
+DIST_DIR = os.path.join(ROOT_DIR, "dist")
+
+if os.path.exists(DIST_DIR):
+    # Mount assets folder if it exists
+    assets_dir = os.path.join(DIST_DIR, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+        
+    # Catch-all route to serve SPA or local files
+    @app.get("/{catchall:path}")
+    async def serve_spa(catchall: str):
+        # Skip API/health routes so they return proper 404/method errors
+        if catchall.startswith("api") or catchall.startswith("health"):
+            from fastapi import HTTPException
+            raise HTTPException(status_code=404, detail="Not Found")
+            
+        # Check if requesting a direct file (like favicon.svg, icons.svg)
+        file_path = os.path.join(DIST_DIR, catchall)
+        if os.path.isfile(file_path) and not catchall.endswith(".html"):
+            return FileResponse(file_path)
+            
+        return FileResponse(os.path.join(DIST_DIR, "index.html"))
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
