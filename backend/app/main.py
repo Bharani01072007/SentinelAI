@@ -77,7 +77,7 @@ def health_check():
     return {
         "status": "healthy",
         "timestamp": datetime.utcnow(),
-        "version": "1.0.3-verify"
+        "version": "1.0.4-reports"
     }
 
 # Serve frontend static files in production
