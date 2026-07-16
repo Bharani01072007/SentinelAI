@@ -15,19 +15,25 @@ function IncidentCard({ incident, onUpdate }: { incident: Incident; onUpdate: (u
   const [expanded, setExpanded] = useState(false)
   const sev = severityConfig[incident.severity]
   
-  const isBlocked = incident.timeline.some(t => t.event.includes('blocked by CISO'))
+  // Check the last block/unblock event on the timeline to determine current state
+  const blockEvent = incident.timeline.find(t => 
+    t.event.includes('blocked by CISO') || t.event.includes('unblocked by CISO')
+  )
+  const isBlocked = blockEvent ? blockEvent.event.includes('blocked by CISO') : false
 
   const handleBlockAccount = () => {
     const newTimelineEvent = {
       time: new Date(),
-      event: `Employee account (${incident.employeeName}) blocked by CISO James Thornton`
+      event: isBlocked
+        ? `Employee account (${incident.employeeName}) unblocked by CISO James Thornton`
+        : `Employee account (${incident.employeeName}) blocked by CISO James Thornton`
     }
     const updated: Incident = {
       ...incident,
       timeline: [newTimelineEvent, ...incident.timeline],
     }
     onUpdate(updated)
-    alert(`Account for ${incident.employeeName} has been blocked successfully.`)
+    alert(`Account for ${incident.employeeName} has been ${isBlocked ? 'unblocked' : 'blocked'} successfully.`)
   }
 
   const handleAssignAnalyst = () => {
@@ -288,12 +294,11 @@ function IncidentCard({ incident, onUpdate }: { incident: Incident; onUpdate: (u
                   onClick={handleBlockAccount}
                   className={`py-2 px-4 text-xs rounded-xl font-semibold transition-all ${
                     isBlocked 
-                      ? 'bg-red-500/20 text-red-400 border border-red-500/30 cursor-not-allowed' 
+                      ? 'bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30' 
                       : 'btn-primary'
                   }`}
-                  disabled={isBlocked}
                 >
-                  {isBlocked ? 'Account Blocked' : 'Block Account'}
+                  {isBlocked ? 'Unblock Account' : 'Block Account'}
                 </button>
                 
                 <button 
