@@ -19,7 +19,7 @@ class Alert(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
-    employee = relationship("Employee", back_populates="alerts")
+    employee = relationship("Employee", back_populates="alerts", lazy="joined")
     incident = relationship("Incident", uselist=False, back_populates="alert")
 
     @property

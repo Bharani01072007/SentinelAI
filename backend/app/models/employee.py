@@ -21,7 +21,7 @@ class Employee(Base):
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
     # Relationships
-    department = relationship("Department", back_populates="employees")
+    department = relationship("Department", back_populates="employees", lazy="joined")
     role = relationship("Role", back_populates="employees", lazy="selectin")
     devices = relationship("Device", back_populates="employee", cascade="all, delete-orphan")
     logs = relationship("EmployeeLog", back_populates="employee", cascade="all, delete-orphan")

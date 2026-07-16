@@ -21,8 +21,8 @@ class Incident(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
-    employee = relationship("Employee", foreign_keys=[employee_id], back_populates="incidents")
-    assigned_to = relationship("Employee", foreign_keys=[assigned_to_id], back_populates="assigned_incidents")
+    employee = relationship("Employee", foreign_keys=[employee_id], back_populates="incidents", lazy="joined")
+    assigned_to = relationship("Employee", foreign_keys=[assigned_to_id], back_populates="assigned_incidents", lazy="joined")
     alert = relationship("Alert", back_populates="incident")
 
     @property
