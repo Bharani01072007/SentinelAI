@@ -24,8 +24,197 @@ export default function Reports() {
 
   const handleGenerate = async () => {
     setGenerating(true)
-    await new Promise((r) => setTimeout(r, 1500))
-    setGenerating(false)
+    try {
+      const { jsPDF } = await import('jspdf')
+      const doc = new jsPDF()
+
+      // Header Banner
+      doc.setFillColor(17, 24, 39)
+      doc.rect(0, 0, 210, 40, 'F')
+
+      // SentinelAI branding
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(22)
+      doc.setTextColor(255, 255, 255)
+      doc.text('SentinelAI', 15, 26)
+
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(10)
+      doc.setTextColor(148, 163, 184)
+      doc.text('Enterprise Cyber Threat Intelligence Platform', 55, 25)
+
+      // Brand Accent Line
+      doc.setDrawColor(37, 99, 235)
+      doc.setLineWidth(1)
+      doc.line(15, 40, 195, 40)
+
+      // Report Header Details
+      const reportName = reportTypes.find((r) => r.id === selected)?.label || 'Security Report'
+      const dateStr = new Date().toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(18)
+      doc.setTextColor(17, 24, 39)
+      doc.text(reportName, 15, 55)
+
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(9)
+      doc.setTextColor(75, 85, 99)
+      doc.text(`Generated on: ${dateStr}`, 15, 62)
+      doc.text('Classification: CONFIDENTIAL / INTERNAL USE ONLY', 15, 67)
+
+      // Summary Cards Block
+      doc.setFillColor(243, 244, 246)
+      doc.rect(15, 75, 180, 25, 'F')
+      doc.setDrawColor(229, 231, 235)
+      doc.rect(15, 75, 180, 25, 'S')
+
+      const cardWidth = 45
+      summaryStats.forEach((stat, idx) => {
+        const startX = 15 + idx * cardWidth
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(8)
+        doc.setTextColor(107, 114, 128)
+        doc.text(stat.label, startX + 5, 83)
+
+        doc.setFont('helvetica', 'bold')
+        doc.setFontSize(12)
+        doc.setTextColor(17, 24, 39)
+        doc.text(stat.value, startX + 5, 92)
+
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(7)
+        doc.setTextColor(239, 68, 68)
+        doc.text(stat.trend, startX + 32, 92)
+      })
+
+      // Department Risk Table
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(12)
+      doc.setTextColor(17, 24, 39)
+      doc.text('Department Risk Breakdown', 15, 115)
+
+      doc.setFillColor(37, 99, 235)
+      doc.rect(15, 120, 180, 8, 'F')
+
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(9)
+      doc.setTextColor(255, 255, 255)
+      doc.text('Department', 20, 126)
+      doc.text('Risk Score', 85, 126)
+      doc.text('Monitored Employees', 120, 126)
+      doc.text('Threat Events', 165, 126)
+
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(9)
+      doc.setTextColor(55, 65, 81)
+      
+      let currentY = 134
+      departmentRisk.forEach((row, index) => {
+        if (index % 2 === 1) {
+          doc.setFillColor(249, 250, 251)
+          doc.rect(15, currentY - 5, 180, 7, 'F')
+        }
+        
+        doc.text(row.department, 20, currentY)
+        doc.text(row.riskScore.toString(), 85, currentY)
+        doc.text(row.employees.toString(), 120, currentY)
+        doc.text(row.threats.toString(), 165, currentY)
+        
+        doc.setDrawColor(243, 244, 246)
+        doc.line(15, currentY + 2, 195, currentY + 2)
+        currentY += 8
+      })
+
+      // AI Recommendations section
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(12)
+      doc.setTextColor(17, 24, 39)
+      doc.text('AI Threat Insights & Recommendations', 15, currentY + 12)
+
+      let aiInsights: string[] = []
+      if (selected === 'daily') {
+        aiInsights = [
+          'High Risk Alerts: Flagged unusual geo-locations in IT Infrastructure. Immediate confirmation required.',
+          'MFA Hardening: Force step-up MFA challenge for all external remote admin connections.',
+          'Session Auditing: 7 active sessions blocked automatically. Recommend security audit for employee IDs emp-001 and emp-008.',
+        ]
+      } else if (selected === 'weekly') {
+        aiInsights = [
+          'Overall Threat Trend: Elevated risk scores observed during non-business hours (average score 47.2, up 5% this week).',
+          'Data Leakage Control: Restrict mass downloads from IT Security and Finance databases outside regular work schedules.',
+          'Vulnerability Mitigation: Audit recent permission changes and S3 bucket configuration revisions in Engineering.',
+        ]
+      } else if (selected === 'monthly') {
+        aiInsights = [
+          'Executive Insight: Internal threat indicators show persistent exfiltration behaviors from specific privileged accounts.',
+          'Role Configuration: Conduct complete access audit for DB Admin and Cloud Architect credentials.',
+          'Automation Tuning: Adjust contamination parameter in the Isolation Forest threat model (currently 5%) to reduce false positives.',
+        ]
+      } else {
+        aiInsights = [
+          'Critical Posture Assessment: Average risk indicators suggest heightened vulnerability within high-privilege IT teams.',
+          'Access Controls: Revoke active session tokens for blocked employees immediately.',
+          'SOC Review: Schedule forensic analysis of data-exfil log patterns in Mumbai/Singapore networks.',
+        ]
+      }
+
+      currentY += 20
+      aiInsights.forEach((insight) => {
+        doc.setFillColor(37, 99, 235)
+        doc.rect(17, currentY - 2, 2, 2, 'F')
+        
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(9)
+        doc.setTextColor(55, 65, 81)
+        
+        const lines = doc.splitTextToSize(insight, 170)
+        doc.text(lines, 23, currentY)
+        currentY += lines.length * 5 + 2
+      })
+
+      // Footer
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(8)
+      doc.setTextColor(156, 163, 175)
+      doc.text('SentinelAI Inc. | www.sentinel.corp | CONFIDENTIAL', 15, 285)
+      doc.text('Page 1 of 1', 185, 285)
+
+      // Download
+      doc.save(`sentinelai-${selected}-report.pdf`)
+    } catch (error) {
+      console.error('Error generating PDF report:', error)
+    } finally {
+      setGenerating(false)
+    }
+  }
+
+  const handleExportCSV = () => {
+    const headers = ['Department', 'Risk Score', 'Monitored Employees', 'Threat Events']
+    const rows = departmentRisk.map(row => [
+      row.department,
+      row.riskScore,
+      row.employees,
+      row.threats
+    ])
+    
+    const csvContent = "data:text/csv;charset=utf-8," 
+      + [headers.join(','), ...rows.map(e => e.join(','))].join('\n')
+      
+    const encodedUri = encodeURI(csvContent)
+    const link = document.createElement("a")
+    link.setAttribute("href", encodedUri)
+    link.setAttribute("download", `sentinelai-department-risk-${selected}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
@@ -145,6 +334,7 @@ export default function Reports() {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            onClick={handleExportCSV}
             className="btn-ghost flex items-center gap-2"
           >
             <Download size={14} />
