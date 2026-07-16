@@ -1,32 +1,157 @@
-# React + TypeScript + Vite
+# 🛡️ SentinelAI
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+> **AI-Powered Privileged Access Intelligence Platform for Banking Security**
 
-Currently, two official plugins are available:
+SentinelAI is an intelligent cybersecurity platform designed to detect and prevent privileged access misuse and insider threats in banking environments. By combining AI-driven behavioral analytics, anomaly detection, dynamic risk scoring, and adaptive access control, SentinelAI helps financial institutions identify suspicious activities before they become security incidents.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🌐 Live Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Application:** https://sentinelai-sqwj.onrender.com/
 
-## Expanding the Oxlint configuration
+---
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## 📖 Overview
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+Traditional Role-Based Access Control (RBAC) verifies whether a user has permission to access a system but cannot determine whether the user's behavior is suspicious. SentinelAI bridges this gap by continuously learning user behavior, detecting anomalies, and dynamically responding to potential insider threats in real time.
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+---
+
+## 🚀 Key Features
+
+- 🔐 AI-Based Insider Threat Detection
+- 📊 Real-Time Behavioral Analytics
+- ⚠️ Dynamic Risk Score Calculation
+- 👤 Employee Behavior Profiling
+- 🛡️ Adaptive Access Control
+- 📈 Security Operations Dashboard
+- 📋 Audit Log Monitoring
+- 🤖 Explainable AI Recommendations
+- 📡 Live Threat Monitoring
+- 🔒 Future-Ready Quantum-Safe Security Architecture
+
+---
+
+## 🧠 AI Modules
+
+- Isolation Forest (Behavior Anomaly Detection)
+- Dynamic Risk Scoring Engine
+- Rule-Based Decision Engine
+- Employee Behavior Profiling
+- Explainable AI
+- Future Integration with XGBoost and LLM-based Security Copilot
+
+---
+
+## 🏗️ System Workflow
+
+Employee Activity
+
+⬇️
+
+Behavior Data Collection
+
+⬇️
+
+Feature Engineering
+
+⬇️
+
+Isolation Forest (Anomaly Detection)
+
+⬇️
+
+Risk Scoring Engine
+
+⬇️
+
+Adaptive Access Decision
+
+⬇️
+
+Security Dashboard & Alerts
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Recharts
+
+### Backend
+- FastAPI
+- Python
+
+### Database
+- Supabase PostgreSQL
+- SQLAlchemy
+- Alembic
+
+### Artificial Intelligence
+- Scikit-Learn
+- Isolation Forest
+- Pandas
+- NumPy
+- Joblib
+
+### Authentication & Security
+- JWT Authentication
+- Role-Based Access Control (RBAC)
+- Password Hashing (bcrypt)
+
+### Deployment
+- Frontend
+- Backend: Render
+- Database: Supabase
+
+---
+
+## 📂 Core Modules
+
+- Authentication
+- Employee Management
+- Activity Logging
+- Behavior Analytics
+- Risk Assessment
+- Incident Management
+- Threat Intelligence
+- Audit Logs
+- Reports & Analytics
+- Security Dashboard
+
+---
+
+## 📈 Future Enhancements
+
+- XGBoost-based Risk Prediction
+- LSTM Behavior Analysis
+- AI Security Copilot (Gemini/OpenAI)
+- Graph Neural Networks for Insider Threat Detection
+- Quantum-Safe Cryptography
+- SIEM Integration
+- Multi-Organization Support
+
+---
+
+## 🎯 Problem Statement
+
+**Privileged Access Misuse & Insider Threat Detection**
+
+Develop an AI-powered solution capable of detecting privileged account misuse and insider threats through behavioral analytics, adaptive authentication, risk-based access control, and explainable AI while protecting critical banking infrastructure.
+
+---
+
+## 👨‍💻 Developed By
+
+**Team SentinelAI**
+
+---
+
+## 📄 License
+
+This project is developed for educational and hackathon purposes.
