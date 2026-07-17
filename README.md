@@ -8,7 +8,7 @@ SentinelAI is an intelligent cybersecurity platform designed to detect and preve
 
 ## 🌐 Live Demo
 
-**Application:** https://sentinelai-sqwj.onrender.com/
+**Application:** https://sentinelai-sqwj.onrender.com
 
 ---
 
